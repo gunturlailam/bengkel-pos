@@ -15,26 +15,27 @@ class PartsTable
     {
         return $table
             ->columns([
-                TextColumn::make('category_id')
-                    ->numeric()
-                    ->sortable(),
+                TextColumn::make('category.name')
+                    ->label('Kategori')
+                    ->searchable(),
                 TextColumn::make('sku')
-                    ->label('SKU')
+                    ->label('Kode Barang')
                     ->searchable(),
                 TextColumn::make('name')
+                    ->label('Nama Sparepart')
                     ->searchable(),
                 TextColumn::make('buy_price')
-                    ->money()
-                    ->sortable(),
+                    ->label('Harga Beli')
+                    ->money('IDR', locale: 'id'),
                 TextColumn::make('sell_price')
-                    ->money()
-                    ->sortable(),
+                    ->label('Harga Jual')
+                    ->money('IDR', locale: 'id'),
                 TextColumn::make('stock')
-                    ->numeric()
-                    ->sortable(),
+                    ->label('Stok')
+                    ->badge()
+                    ->color(fn($record) => $record->stock <= $record->min_stock ? 'danger' : 'success'),
                 TextColumn::make('min_stock')
-                    ->numeric()
-                    ->sortable(),
+                    ->label('Stok Minimum'),
                 IconColumn::make('is_active')
                     ->boolean(),
                 TextColumn::make('created_at')

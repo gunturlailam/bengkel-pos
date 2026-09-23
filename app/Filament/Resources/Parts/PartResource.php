@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Parts;
 
+use UnitEnum;
 use App\Filament\Resources\Parts\Pages\CreatePart;
 use App\Filament\Resources\Parts\Pages\EditPart;
 use App\Filament\Resources\Parts\Pages\ListParts;
@@ -19,6 +20,13 @@ class PartResource extends Resource
     protected static ?string $model = Part::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+
+    protected static ?string $navigationLabel = 'Sparepart';
+    protected static ?string $modelLabel = 'Sparepart';
+    protected static ?string $pluralModelLabel = 'Sparepart';
+
+    // ===== PERHATIKAN TIPE DATANYA =====
+    protected static string|UnitEnum|null $navigationGroup = 'Master Data';
 
     public static function form(Schema $schema): Schema
     {

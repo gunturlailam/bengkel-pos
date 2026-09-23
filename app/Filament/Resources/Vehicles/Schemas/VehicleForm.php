@@ -12,21 +12,45 @@ class VehicleForm
     {
         return $schema
             ->components([
-                TextInput::make('customer_id')
-                    ->required()
-                    ->numeric(),
+                Select::make('customer_id')
+                    ->label('Pilih Pemilik Kendaraan')
+                    ->relationship('customer', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->required(),
+
                 TextInput::make('plate_number')
-                    ->required(),
-                TextInput::make('brand')
-                    ->required(),
-                TextInput::make('model')
-                    ->required(),
+                    ->label('Nomor Polisi (Plat Nomor)')
+                    ->required()
+                    ->maxLength(20)
+                    ->unique(ignoreRecord: true), // Biar bisa di-update tanpa error duplikat
+
                 Select::make('type')
-                    ->options(['Motor' => 'Motor', 'Mobil' => 'Mobil'])
-                    ->default('Motor')
+                    ->label('Jenis Kendaraan')
+                    ->options([
+                        'Motor' => 'Motor',
+                        'Mobil' => 'Mobil',
+                    ])
                     ->required(),
-                TextInput::make('color'),
-                TextInput::make('year'),
+
+                TextInput::make('brand')
+                    ->label('Merek (Misal: Honda, Yamaha)')
+                    ->required()
+                    ->maxLength(255),
+
+                TextInput::make('model')
+                    ->label('Model / Tipe (Misal: Vario, Brio)')
+                    ->maxLength(255),
+
+                TextInput::make('year')
+                    ->label('Tahun Pembuatan')
+                    ->numeric()
+                    ->minValue(1900)
+                    ->maxValue(date('Y') + 1),
+
+                TextInput::make('color')
+                    ->label('Warna Kendaraan')
+                    ->maxLength(50),
             ]);
     }
 }

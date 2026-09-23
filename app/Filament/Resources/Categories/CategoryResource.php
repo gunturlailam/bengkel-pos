@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Categories;
 
+use UnitEnum;
 use App\Filament\Resources\Categories\Pages\CreateCategory;
 use App\Filament\Resources\Categories\Pages\EditCategory;
 use App\Filament\Resources\Categories\Pages\ListCategories;
@@ -19,6 +20,13 @@ class CategoryResource extends Resource
     protected static ?string $model = Category::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+
+    protected static ?string $navigationLabel = 'Kategori Sparepart';
+    protected static ?string $modelLabel = 'Kategori Sparepart';
+    protected static ?string $pluralModelLabel = 'Kategori Sparepart';
+
+    // ===== PERHATIKAN TIPE DATANYA =====
+    protected static string|UnitEnum|null $navigationGroup = 'Master Data';
 
     public static function form(Schema $schema): Schema
     {

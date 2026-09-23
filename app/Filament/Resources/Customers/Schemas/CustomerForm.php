@@ -13,11 +13,20 @@ class CustomerForm
         return $schema
             ->components([
                 TextInput::make('name')
-                    ->required(),
+                    ->label('Nama Pelanggan')
+                    ->required()
+                    ->maxLength(255),
+
                 TextInput::make('phone')
-                    ->tel(),
+                    ->label('Nomor Telepon / WA')
+                    ->tel()
+                    ->maxLength(20),
+
+
                 Textarea::make('address')
-                    ->columnSpanFull(),
+                    ->label('Alamat Lengkap')
+                    ->rows(3)
+                    ->columnSpanFull(), // Biar alamat full satu baris ke kanan
             ]);
     }
 }

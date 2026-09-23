@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Vehicles;
 
+use UnitEnum;
 use App\Filament\Resources\Vehicles\Pages\CreateVehicle;
 use App\Filament\Resources\Vehicles\Pages\EditVehicle;
 use App\Filament\Resources\Vehicles\Pages\ListVehicles;
@@ -19,6 +20,13 @@ class VehicleResource extends Resource
     protected static ?string $model = Vehicle::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+
+    protected static ?string $navigationLabel = 'Kendaraan';
+    protected static ?string $modelLabel = 'Kendaraan';
+    protected static ?string $pluralModelLabel = 'Kendaraan';
+
+    // ===== PERHATIKAN TIPE DATANYA =====
+    protected static string|UnitEnum|null $navigationGroup = 'Master Data';
 
     public static function form(Schema $schema): Schema
     {

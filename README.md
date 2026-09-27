@@ -1,58 +1,113 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🔧 Bengkel POS
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Aplikasi **Point of Sale (POS) & Manajemen Bengkel** berbasis web, dibangun dengan Laravel dan Filament. Dirancang untuk bengkel motor/mobil untuk mengelola transaksi jasa + sparepart, stok gudang, work order mekanik, hingga laporan omzet pemilik.
 
-## About Laravel
+![Laravel](https://img.shields.io/badge/Laravel-11-FF2D20?style=flat-square&logo=laravel)
+![Filament](https://img.shields.io/badge/Filament-4-FFC108?style=flat-square)
+![Livewire](https://img.shields.io/badge/Livewire-3-FB70A9?style=flat-square)
+![MySQL](https://img.shields.io/badge/MySQL-8-4479A1?style=flat-square&logo=mysql)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## ✨ Fitur Utama
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 💰 Kasir (POS)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- Transaksi gabungan **jasa servis + sparepart** dalam satu nota
+- Keranjang interaktif dengan validasi stok real-time
+- Diskon, pembayaran, dan perhitungan kembalian otomatis
+- Nomor invoice otomatis dengan format `WO-YYYYMMDD-0001`
+- Pemotongan stok sparepart otomatis saat checkout
 
-## Learning Laravel
+### 📦 Master Data
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- Pelanggan & kendaraan (nomor polisi, merek, tipe, tahun)
+- Jasa servis dengan tarif dan estimasi waktu pengerjaan
+- Sparepart dengan kategori, SKU, harga beli/jual, dan stok minimum
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 🔧 Work Order
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+- Riwayat transaksi lengkap dengan detail item
+- Manajemen status pengerjaan: `Menunggu` → `Dikerjakan` → `Selesai`
+- Cetak nota PDF (ukuran A5) siap print untuk pelanggan
 
-## Agentic Development
+### 📊 Dashboard Pemilik
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+- Kartu statistik: total omzet, jumlah transaksi, peringatan stok menipis
+- Grafik batang omzet 7 hari terakhir
+- Filter rentang tanggal
+
+### 🔐 Multi-Role Access Control
+
+| Role        | Akses                                             |
+| ----------- | ------------------------------------------------- |
+| **Admin**   | Semua menu + dashboard omzet                      |
+| **Kasir**   | Kasir (POS), riwayat transaksi, cetak nota        |
+| **Mekanik** | Riwayat transaksi (update status pengerjaan saja) |
+
+## 🛠️ Tech Stack
+
+- **Framework:** Laravel 11
+- **Admin Panel:** Filament PHP 4
+- **Reactivity:** Livewire 3
+- **Database:** MySQL
+- **PDF:** barryvdh/laravel-dompdf
+- **Styling:** Tailwind CSS + Custom CSS
+
+## 🚀 Cara Instalasi
 
 ```bash
-composer require laravel/boost --dev
+# 1. Clone repository
+git clone https://github.com/USERNAME_KAMU/bengkel-pos.git
+cd bengkel-pos
 
-php artisan boost:install
+# 2. Install dependencies
+composer install
+
+# 3. Setup environment
+cp .env.example .env
+php artisan key:generate
+
+# 4. Konfigurasi database di .env, lalu migrate + seed
+php artisan migrate --seed
+
+# 5. Jalankan aplikasi
+php artisan serve
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+Akses admin panel di: `http://localhost:8000/admin`
 
-## Contributing
+## 👤 Akun Default
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+| Role    | Email               | Password |
+| ------- | ------------------- | -------- |
+| Admin   | admin@bengkel.com   | password |
+| Kasir   | kasir@bengkel.com   | password |
+| Mekanik | mekanik@bengkel.com | password |
 
-## Code of Conduct
+## 📮 API Data Entry (Bulk)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Tersedia endpoint API untuk input data massal (berguna untuk seeding via Postman):
 
-## Security Vulnerabilities
+| Method | Endpoint          | Fungsi                   |
+| ------ | ----------------- | ------------------------ |
+| POST   | `/api/categories` | Input kategori sparepart |
+| POST   | `/api/customers`  | Input pelanggan          |
+| POST   | `/api/services`   | Input jasa servis        |
+| POST   | `/api/parts`      | Input sparepart          |
+| POST   | `/api/vehicles`   | Input kendaraan          |
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+> ⚠️ Endpoint ini terbuka tanpa autentikasi dan ditujukan hanya untuk pengembangan lokal.
 
-## License
+## 🗺️ Roadmap
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- [ ] Riwayat stok masuk/keluar (stok opname)
+- [ ] Reminder servis berkala via WhatsApp
+- [ ] Export laporan bulanan ke Excel
+- [ ] Dukungan barcode scanner
+
+## 📄 Lisensi
+
+Project ini bersifat open-source untuk keperluan pembelajaran. Silakan gunakan dan modifikasi dengan bijak.
+
+---
+
+Dibuat dengan ☕ dan 🔥 oleh **[Nama Kamu](https://github.com/USERNAME_KAMU)**

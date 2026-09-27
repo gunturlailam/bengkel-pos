@@ -73,6 +73,10 @@ class WorkOrderResource extends Resource
             ])
             ->recordActions([
                 ViewAction::make()->label('Lihat'),
+                Action::make('print')
+                    ->label('Cetak Nota')
+                    ->icon('heroicon-o-printer')
+                    ->url(fn(WorkOrder $record): string => route('work-orders.print', $record), true),
                 Action::make('updateStatus')
                     ->label('Update Status')
                     ->icon('heroicon-o-arrow-path')

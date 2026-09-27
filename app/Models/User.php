@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 
@@ -32,10 +33,16 @@ class User extends Authenticatable implements FilamentUser
         ];
     }
 
-    // Ini buat Filament: cuma admin yang bisa akses panel
+    public static function current(): ?self
+    {
+        $user = Auth::user();
+
+        return $user instanceof self ? $user : null;
+    }
+
     public function canAccessPanel(Panel $panel): bool
     {
-        return $this->role === 'admin';
+        return in_array($this->role, ['admin', 'kasir', 'mekanik']);
     }
 
     // Helper buat cek role

@@ -14,6 +14,8 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use App\Models\User;
+use Override;
 
 class CategoryResource extends Resource
 {
@@ -24,6 +26,11 @@ class CategoryResource extends Resource
     protected static ?string $navigationLabel = 'Kategori Sparepart';
     protected static ?string $modelLabel = 'Kategori Sparepart';
     protected static ?string $pluralModelLabel = 'Kategori Sparepart';
+
+    public static function canAccess(): bool
+    {
+        return User::current()?->isAdmin() ?? false;
+    }
 
     // ===== PERHATIKAN TIPE DATANYA =====
     protected static string|UnitEnum|null $navigationGroup = 'Master Data';

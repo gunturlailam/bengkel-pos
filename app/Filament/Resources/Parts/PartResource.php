@@ -14,6 +14,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use App\Models\User;
 
 class PartResource extends Resource
 {
@@ -27,6 +28,11 @@ class PartResource extends Resource
 
     // ===== PERHATIKAN TIPE DATANYA =====
     protected static string|UnitEnum|null $navigationGroup = 'Master Data';
+
+    public static function canAccess(): bool
+    {
+        return User::current()?->isAdmin() ?? false;
+    }
 
     public static function form(Schema $schema): Schema
     {

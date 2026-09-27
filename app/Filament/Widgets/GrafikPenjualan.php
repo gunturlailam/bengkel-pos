@@ -5,11 +5,19 @@ namespace App\Filament\Widgets;
 use App\Models\WorkOrder;
 use Filament\Widgets\ChartWidget;
 use Illuminate\Support\Carbon;
+use App\Models\User;
+use Override;
 
 class GrafikPenjualan extends ChartWidget
 {
     protected ?string $heading = 'Omzet 7 Hari Terakhir';
     protected static ?int $sort = 2;
+
+    #[Override]
+    public static function canView(): bool
+    {
+        return User::current()?->isAdmin() ?? false;
+    }
 
     protected function getData(): array
     {

@@ -4,6 +4,7 @@ namespace App\Filament\Resources\WorkOrders;
 
 use App\Filament\Resources\WorkOrders\Pages\ListWorkOrders;
 use App\Filament\Resources\WorkOrders\Pages\ViewWorkOrder;
+use App\Models\User;
 use App\Models\WorkOrder;
 use BackedEnum;
 use Filament\Actions\Action;
@@ -62,10 +63,15 @@ class WorkOrderResource extends Resource
                         'done' => 'success',
                         default => 'gray',
                     }),
+
+                // ===== PERUBAHAN 1: Kolom Total disembunyikan dari Mekanik =====
                 TextColumn::make('total')
                     ->label('Total')
                     ->money('IDR', locale: 'id')
-                    ->sortable(),
+                    ->sortable()
+                    ->visible(fn(): bool => User::current()?->role !== 'mekanik'),
+                // ================================================================
+
                 TextColumn::make('created_at')
                     ->label('Tanggal')
                     ->dateTime('d/m/Y H:i')
@@ -73,13 +79,20 @@ class WorkOrderResource extends Resource
             ])
             ->recordActions([
                 ViewAction::make()->label('Lihat'),
+
+                // ===== PERUBAHAN 2: Tombol Cetak Nota cuma buat Admin & Kasir =====
                 Action::make('print')
                     ->label('Cetak Nota')
                     ->icon('heroicon-o-printer')
-                    ->url(fn(WorkOrder $record): string => route('work-orders.print', $record), true),
+                    ->url(fn(WorkOrder $record): string => route('work-orders.print', $record), true)
+                    ->visible(fn(): bool => in_array(User::current()?->role, ['admin', 'kasir'])),
+                // ==================================================================
+
+                // ===== PERUBAHAN 3: Tombol Update Status cuma buat Admin & Mekanik =====
                 Action::make('updateStatus')
                     ->label('Update Status')
                     ->icon('heroicon-o-arrow-path')
+                    ->visible(fn(): bool => in_array(User::current()?->role, ['admin', 'mekanik']))
                     ->form([
                         Select::make('status')
                             ->label('Status Pengerjaan')
@@ -88,6 +101,7 @@ class WorkOrderResource extends Resource
                             ->required(),
                     ])
                     ->action(fn(WorkOrder $record, array $data) => $record->update($data)),
+                // =======================================================================
             ])
             ->toolbarActions([])
             ->defaultSort('created_at', 'desc');

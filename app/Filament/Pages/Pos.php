@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Computed;
 use Illuminate\Support\Facades\Auth;
 use UnitEnum;
+use App\Models\User;
+use Override;
 
 class Pos extends Page
 {
@@ -31,6 +33,12 @@ class Pos extends Page
     public array $cart = [];
     public $discount = 0;
     public $paid = 0;
+
+    #[Override]
+    public static function canAccess(): bool
+    {
+        return in_array(User::current()?->role, ['admin', 'kasir']);
+    }
 
     public function updatedCustomerId()
     {

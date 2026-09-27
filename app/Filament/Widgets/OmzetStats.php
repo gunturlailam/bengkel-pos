@@ -8,12 +8,20 @@ use Filament\Widgets\Concerns\InteractsWithPageFilters;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Illuminate\Support\Carbon;
+use App\Models\User;
+use Override;
 
 class OmzetStats extends BaseWidget
 {
     use InteractsWithPageFilters;
 
     protected static ?int $sort = 1;
+
+    #[Override]
+    public static function canView(): bool
+    {
+        return User::current()?->isAdmin() ?? false;
+    }
 
     protected function getStats(): array
     {

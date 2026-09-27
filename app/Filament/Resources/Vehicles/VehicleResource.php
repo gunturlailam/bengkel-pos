@@ -14,6 +14,8 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use App\Models\User;
+use Override;
 
 class VehicleResource extends Resource
 {
@@ -27,6 +29,12 @@ class VehicleResource extends Resource
 
     // ===== PERHATIKAN TIPE DATANYA =====
     protected static string|UnitEnum|null $navigationGroup = 'Master Data';
+
+    #[Override]
+    public static function canAccess(): bool
+    {
+        return User::current()?->isAdmin() ?? false;
+    }
 
     public static function form(Schema $schema): Schema
     {

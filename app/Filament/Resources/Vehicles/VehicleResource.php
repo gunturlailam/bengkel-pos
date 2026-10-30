@@ -33,7 +33,7 @@ class VehicleResource extends Resource
     #[Override]
     public static function canAccess(): bool
     {
-        return User::current()?->isAdmin() ?? false;
+        return in_array(User::current()?->role, ['admin', 'kasir']);
     }
 
     public static function form(Schema $schema): Schema

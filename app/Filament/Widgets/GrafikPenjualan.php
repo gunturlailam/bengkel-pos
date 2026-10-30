@@ -39,7 +39,7 @@ class GrafikPenjualan extends ChartWidget
             'datasets' => [
                 [
                     'label' => 'Omzet (Rp)',
-                    'date' => $data,
+                    'data' => $data,
                     'backgroundColor' => '#f59e0b',
                     'borderColor' => '#d97706',
                 ],

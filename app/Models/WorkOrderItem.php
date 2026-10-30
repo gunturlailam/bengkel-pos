@@ -12,4 +12,14 @@ class WorkOrderItem extends Model
     {
         return $this->belongsTo(WorkOrder::class);
     }
+
+    public function part()
+    {
+        return $this->belongsTo(Part::class);
+    }
+
+    public function service()
+    {
+        return $this->belongsTo(Service::class);
+    }
 }

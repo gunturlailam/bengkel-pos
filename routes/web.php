@@ -5,7 +5,7 @@ use App\Http\Controllers\PrintNotaController;
 
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/admin');
 });
 
 Route::middleware(['auth'])->group(function () {

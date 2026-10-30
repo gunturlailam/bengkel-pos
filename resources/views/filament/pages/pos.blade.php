@@ -240,7 +240,7 @@
                         <div style="display: flex; gap: 4px">
                             <button class="pos-qty-btn" wire:click="changeQty('{{ $key }}', -1)">-</button>
                             <button class="pos-qty-btn" wire:click="changeQty('{{ $key }}', 1)">+</button>
-                            <button class="pos-qty-btn danger" wire:click="removeItem('{{ $key }})">×</button>
+                            <button class="pos-qty-btn danger" wire:click="removeItem('{{ $key }}')">×</button>
                         </div>
                     </li>
                     @endforeach

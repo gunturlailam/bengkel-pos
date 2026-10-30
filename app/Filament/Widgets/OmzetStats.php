@@ -40,9 +40,9 @@ class OmzetStats extends BaseWidget
         $lowStock = Part::whereColumn('stock', '<=', 'min_stock')->count();
 
         return [
-            Stat::make('Total Omzet', 'Rp ' . number_format($revenue, 0, ', ', '.'))
+            Stat::make('Total Omzet', 'Rp ' . number_format($revenue, 0, ',', '.'))
                 ->description('Pendapatan periode ' . $diffInDays . ' hari')
-                ->description('heroicon-m-arrow-trending-up')
+                ->descriptionIcon('heroicon-m-arrow-trending-up')
                 ->color('success'),
 
             Stat::make('Total Transaksi', $transactions)

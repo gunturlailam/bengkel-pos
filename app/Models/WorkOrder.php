@@ -18,6 +18,11 @@ class WorkOrder extends Model
         return $this->belongsTo(Vehicle::class);
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function items()
     {
         return $this->hasMany(WorkOrderItem::class);

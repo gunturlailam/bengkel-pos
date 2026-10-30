@@ -109,25 +109,28 @@ class WorkOrderResource extends Resource
 
     public static function infolist(Schema $schema): Schema
     {
+        $canSeeFinancials = fn(): bool => User::current()?->role !== 'mekanik';
+
         return $schema->components([
             TextEntry::make('invoice_number')->label('No. Invoice'),
             TextEntry::make('created_at')->label('Tanggal')->dateTime('d/m/Y H:i'),
             TextEntry::make('customer.name')->label('Pelanggan'),
             TextEntry::make('vehicle.plate_number')->label('Kendaraan'),
+            TextEntry::make('user.name')->label('Kasir / Petugas'),
             TextEntry::make('status')
                 ->label('Status')
                 ->badge()
                 ->formatStateUsing(fn(string $state) => self::statusOptions()[$state] ?? $state),
-            TextEntry::make('subtotal')->label('Subtotal')->money('IDR', locale: 'id'),
-            TextEntry::make('discount')->label('Diskon')->money('IDR', locale: 'id'),
-            TextEntry::make('total')->label('Total Bayar')->money('IDR', locale: 'id'),
+            TextEntry::make('subtotal')->label('Subtotal')->money('IDR', locale: 'id')->visible($canSeeFinancials),
+            TextEntry::make('discount')->label('Diskon')->money('IDR', locale: 'id')->visible($canSeeFinancials),
+            TextEntry::make('total')->label('Total Bayar')->money('IDR', locale: 'id')->visible($canSeeFinancials),
             RepeatableEntry::make('items')
                 ->label('Detail Item (Jasa & Sparepart)')
                 ->schema([
                     TextEntry::make('name')->label('Nama'),
                     TextEntry::make('qty')->label('Qty'),
-                    TextEntry::make('price')->label('Harga')->money('IDR', locale: 'id'),
-                    TextEntry::make('subtotal')->label('Subtotal')->money('IDR', locale: 'id'),
+                    TextEntry::make('price')->label('Harga')->money('IDR', locale: 'id')->visible($canSeeFinancials),
+                    TextEntry::make('subtotal')->label('Subtotal')->money('IDR', locale: 'id')->visible($canSeeFinancials),
                 ])
                 ->columns(4),
         ]);
